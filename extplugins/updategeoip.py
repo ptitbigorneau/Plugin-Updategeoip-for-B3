@@ -1,6 +1,6 @@
 # UpdateGeoIP Plugin
 
-__version__ = '1.3'
+__version__ = '1.4'
 __author__  = 'PtitBigorneau www.ptitbigorneau.fr'
 
 import b3
@@ -18,6 +18,10 @@ class UpdategeoipPlugin(b3.plugin.Plugin):
     _adminPlugin = None
     _cronTab = None
     _updatetest = None
+    _updategeoiplevel = 100
+    _updateday = 2
+    _geoippath = "b3/extplugins/GeoIP/"
+    _geoipurl = "http://geolite.maxmind.com/download/geoip/database/GeoLiteCountry/GeoIP.dat.gz"
 
     def onStartup(self):
         
@@ -38,9 +42,30 @@ class UpdategeoipPlugin(b3.plugin.Plugin):
         self.console.cron + self._cronTab
    
     def onLoadConfig(self):
-   
-        self._adminPlugin.registerCommand(self, 'updategeoip',self._updategeoiplevel, self.cmd_updategeoip, 'ugeoip')
-        self._adminPlugin.registerCommand(self, 'verifgeoip',self._updategeoiplevel, self.cmd_verifgeoip, 'vgeoip')
+
+        try:
+            self._updategeoiplevel = self.config.geting('settings', 'updategeoiplevel')
+        except Exception, err:
+            self.warning("Using default value %s for updategeoiplevel. %s" % (self._updategeoiplevel, err))
+        self.debug('updategeoiplevel : %s' % self._updategeoiplevel)
+
+        try:
+            self._updateday = self.config.geting('settings', 'updateday')
+        except Exception, err:
+            self.warning("Using default value %s for updateday. %s" % (self._updateday, err))
+        self.debug('updateday : %s' % self._updateday)
+
+        try:
+            self._geoippath = self.config.get('settings', 'geoippath')
+        except Exception, err:
+            self.warning("Using default value %s for geoippath. %s" % (self._geoippath, err))
+        self.debug('geoippath : %s' % self._geoippath)
+
+        try:
+            self._geoipurl = self.config.get('settings', 'geoipurl')
+        except Exception, err:
+            self.warning("Using default value %s for geoipurl. %s" % (self._geoipurl, err))
+        self.debug('geoipurl : %s' % self._geoipurl)
           
     def update(self):
         
