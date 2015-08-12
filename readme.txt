@@ -2,7 +2,7 @@
 # Plugin for B3 (www.bigbrotherbot.com)
 # www.ptitbigorneau.fr
 
-updategeoip plugin (v1.4) for B3
+updategeoip plugin (v1.4.1) for B3
 
 Installation:
 

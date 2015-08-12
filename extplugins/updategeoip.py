@@ -1,6 +1,6 @@
 # UpdateGeoIP Plugin
 
-__version__ = '1.4'
+__version__ = '1.4.1'
 __author__  = 'PtitBigorneau www.ptitbigorneau.fr'
 
 import b3
@@ -44,13 +44,13 @@ class UpdategeoipPlugin(b3.plugin.Plugin):
     def onLoadConfig(self):
 
         try:
-            self._updategeoiplevel = self.config.geting('settings', 'updategeoiplevel')
+            self._updategeoiplevel = self.config.getint('settings', 'updategeoiplevel')
         except Exception, err:
             self.warning("Using default value %s for updategeoiplevel. %s" % (self._updategeoiplevel, err))
         self.debug('updategeoiplevel : %s' % self._updategeoiplevel)
 
         try:
-            self._updateday = self.config.geting('settings', 'updateday')
+            self._updateday = self.config.getint('settings', 'updateday')
         except Exception, err:
             self.warning("Using default value %s for updateday. %s" % (self._updateday, err))
         self.debug('updateday : %s' % self._updateday)
